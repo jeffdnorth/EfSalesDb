@@ -33,9 +33,11 @@ namespace EfSalesDb
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
-
+            //entity is a fred variable
             modelBuilder.Entity<Customer>(entity =>
             {
+       //         entity.HasIndex(e => e.Code).IsUnique(true);
+
                 entity.Property(e => e.Active)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
@@ -63,7 +65,7 @@ namespace EfSalesDb
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Description).HasMaxLength(80);
-
+                //foriegn key cust Id is FK fluent API to make a key unique
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
@@ -93,7 +95,7 @@ namespace EfSalesDb
 
             OnModelCreatingPartial(modelBuilder);
         }
-
+        //method
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
